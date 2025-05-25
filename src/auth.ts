@@ -50,6 +50,6 @@ function adminRemoveFriend(authUserId: number) {
     return { }
 }
 
-function adminUpdateBalance(authUserId: number) {
+function adminUpdateBalance(authUserId: number, amount: number) {
     return { }
 }
