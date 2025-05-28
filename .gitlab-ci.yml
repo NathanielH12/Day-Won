@@ -5,14 +5,14 @@ before_script:
 tests:
   stage: checks
   only:
-    - main
+    - master
     - merge_requests
   script:
     - npm run test
 type-checking:
   stage: checks
   only:
-    - main
+    - master
     - merge_requests
   script:
     - npm run tsc
