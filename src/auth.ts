@@ -53,3 +53,9 @@ function adminRemoveFriend(authUserId: number) {
 function adminUpdateBalance(authUserId: number, amount: number) {
     return { }
 }
+
+export {
+    adminAuthRegister,
+    adminUserDetails,
+    adminAuthLogin
+}

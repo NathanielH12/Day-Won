@@ -29,3 +29,7 @@ function adminQuizDescriptionUpdate(authUserId: number, quizId: number, descript
 function clear() {
     return { }
 }
+
+export {
+    clear
+}
