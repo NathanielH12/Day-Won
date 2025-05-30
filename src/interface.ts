@@ -17,5 +17,13 @@ interface Quizzes {
     description: string,
     timeCreated: number,
     timeLastEdited: number,
-}  
-  
+}
+
+interface Data {
+    users: Users[],
+    quizzes: Quizzes[]
+}
+
+export {
+    Data
+}
