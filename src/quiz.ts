@@ -25,7 +25,3 @@ function adminQuizNameUpdate(authUserId: number, quizId: number, name: string) {
 function adminQuizDescriptionUpdate(authUserId: number, quizId: number, description: string) {
     return { }
 }
-
-function clear() {
-    return { }
-}
