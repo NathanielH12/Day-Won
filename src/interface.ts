@@ -6,7 +6,7 @@ interface Users {
     password: string,
     numSuccessfulLogins: number,
     numFailedPasswordsSinceLastLogin: number
-    userSession: string[];
+    // userSession: string[];
     passwordHistory: string[];
 }
 
@@ -25,5 +25,6 @@ interface Data {
 }
 
 export {
-    Data
+    Data,
+    Users
 }
