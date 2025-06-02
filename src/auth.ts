@@ -17,6 +17,7 @@ const zxcvbn = require('zxcvbn');
 
 function adminAuthRegister(email: string, password: string, nameFirst: string, nameLast: string) {
     let store = getData();
+    email = email.toLowerCase();
 
     if (!emailIsUnused(email, store)) {
         return { error: 'Email is being used by another user!'};
@@ -37,9 +38,14 @@ function adminAuthRegister(email: string, password: string, nameFirst: string, n
     if (!nameIsValidCharacter(nameLast)) {
         return { error: "Last name contains characters other than lowercase letters, uppercase letters, spaces, hyphens, or apostrophes!"};
     }
-
+    
     if (!nameIsValidLength(nameLast)) {
         return { error: "Last name is less than 2 characters or more than 20 characters!"};
+    }
+
+    const pass = zxcvbn(password);
+    if (pass.score < 4) {
+        return { error: `${pass.feedback.warning}, ${pass.feedback.suggestions}` };
     }
 
     if (!passwordIsValidLength(password)) {
@@ -49,6 +55,7 @@ function adminAuthRegister(email: string, password: string, nameFirst: string, n
     if (!passwordHasNameAndLetter(password)){
         return { error: 'Password must contain at least one letter and one number!' };
     }
+
 
     const newUserId = getNewUserId(store.users);
 
