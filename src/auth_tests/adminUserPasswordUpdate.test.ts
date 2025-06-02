@@ -9,7 +9,7 @@ describe('adminUserPasswordUpdate', () => {
     let userIdValid: number;
     
     beforeEach(() => {
-        userIdValid = adminAuthRegister('valid@mail.com', 'ValidPassword1', 'validFirst', 'validLast').userId;
+        userIdValid = adminAuthRegister('valid@mail.com', 'ValidPassword1', 'validFirst', 'validLast').authUserId;
     });
 
     describe('Error Cases', () => {
