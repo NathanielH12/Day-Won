@@ -9,7 +9,7 @@ beforeEach(()=> {
 const ERROR_STRING = { error: expect.any(String) };
 const SUCCESS = { authUserId: expect.any(Number) }
 
-describe.skip('AdminAuthLogin', () => {
+describe('AdminAuthLogin', () => {
   beforeEach(() => {
     adminAuthRegister('userone@gmail.com', 'User1Password', 'User', 'One');
   });
@@ -53,7 +53,7 @@ describe.skip('AdminAuthLogin', () => {
       expect(result2).toStrictEqual(SUCCESS);
     });
 
-    describe('Login count tracking', () => {
+    describe.skip('Login count tracking', () => {
       test('Number of successful logins increases', () => {
         const res1 = adminAuthLogin('userone@gmail.com', 'User1Password');
         expect(res1).toStrictEqual(SUCCESS);
@@ -84,4 +84,3 @@ describe.skip('AdminAuthLogin', () => {
     });
   });
 });
-  
