@@ -6,10 +6,14 @@ import {
     nameIsValidLength,
     passwordIsValidLength,
     passwordHasNameAndLetter,
-    getNewUserId
-} from './helperFile';
+    getNewUserId,
+    findUser,
+    findCurrentPass,
+    passUsedBefore
+} from './helperFileAuth';
 
 const validator = require('validator');
+const zxcvbn = require('zxcvbn');
 
 function adminAuthRegister(email: string, password: string, nameFirst: string, nameLast: string) {
     let store = getData();
@@ -114,8 +118,53 @@ function adminUserDetailsUpdate(authUserId: number, email: string, nameFirst: st
     return { }
 }
 
+/**
+ * Given details relating to a password change,
+ * update the password of a logged in user.
+ *
+ * @param {number} authUserId
+ * @param {string} oldPassword
+ * @param {string} newPassword
+ * @returns {} - when user successfully update their password, an empty object is return
+ */
+
 function adminUserPasswordUpdate(authUserId: number, oldPassword: string, newPassword: string) {
-    return { }
+    if (!findUser(authUserId)) {
+        return { error: 'userId is not a valid user.' };
+    }
+    
+    if (oldPassword != findCurrentPass(authUserId)) {
+        return { error: 'Old Password is not the correct old password' };
+    }
+    
+    if (oldPassword === newPassword) {
+        return { error: 'Old Password and New Password match exactly' };
+    }
+    
+    if (passUsedBefore(authUserId, newPassword)) {
+        return { error: 'New Password has already been used before by this user' };
+    }
+    
+    // Checking password strength
+
+    const pass = zxcvbn(newPassword);
+    if (pass.score < 4) {
+        return { error: `${pass.feedback.warning}, ${pass.feedback.suggestions}` };
+    }
+
+    if (newPassword.length < 8) {
+        return { error: 'New Password is less than 8 characters' };
+    }
+
+    if (!/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+        return { error: 'New Password must contain at least one letter and one number'}
+    }
+
+    const user = findUser(authUserId);
+    user.password = newPassword;
+    user.passwordHistory.push(newPassword);
+
+    return {}
 }
 
 function adminTimerUpdate(authUserID: number) {
@@ -140,10 +189,11 @@ function adminRemoveFriend(authUserId: number) {
 
 function adminUpdateBalance(authUserId: number, amount: number) {
     return { }
-}
+} 
 
 export {
     adminAuthRegister,
     adminAuthLogin,
-    adminUserDetails
+    adminUserDetails,
+    adminUserPasswordUpdate
 }
