@@ -1,3 +1,4 @@
+import { getData } from "./dataStore";
 import { Data, Users } from "./interface";
 
 const MIN_NAME_LENGTH = 2;
@@ -74,9 +75,9 @@ function passwordHasNameAndLetter(password: string) {
     for (let i = 0; i < password.length; i++) {
         let character = password.charAt(i);
         if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')) {
-        hasLetter = true;
+            hasLetter = true;
         } else if (character >= '0' && character <= '9') {
-        hasNumber = true;
+            hasNumber = true;
         }
     }
 
@@ -94,10 +95,34 @@ function getNewUserId(users: Users[]) {
     let maxUserId = 0;
     for (const user of users) {
         if (user.userId > maxUserId) {
-        maxUserId = user.userId;
+            maxUserId = user.userId;
         }
     }
     return maxUserId + 1;
+}
+
+/**
+ * Checks if userId is valid.
+ *
+ * @param {number} userId
+ *
+ * @returns {Users}
+ */
+function findUser(userId: number) {
+    const data = getData();
+    return data.users.find(user => user.userId === userId);
+}
+
+/**
+ * Returns a given users password.
+ *
+ * @param {number} userId
+ *
+ * @returns {string}
+ */
+function findCurrentPass(userId: number) {
+    const user = findUser(userId);
+    return user.password;
 }
 
 export {
@@ -106,5 +131,7 @@ export {
   nameIsValidLength,
   passwordIsValidLength,
   passwordHasNameAndLetter,
-  getNewUserId
+  getNewUserId,
+  findUser,
+  findCurrentPass
 }
