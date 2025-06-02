@@ -125,6 +125,23 @@ function findCurrentPass(userId: number) {
     return user.password;
 }
 
+/**
+ * Checks if new password has been used before.
+ *
+ * @param {number} userId
+ * @param {string} password
+ *
+ * @returns {boolean}
+ */
+function passUsedBefore(userId: number, password: string) {
+    const user = findUser(userId);
+    const passUsed = user.passwordHistory.find(pass => pass === password);
+    if (!passUsed) {
+        return false;
+    }
+    return true;
+}
+
 export {
   emailIsUnused,
   nameIsValidCharacter,
@@ -133,5 +150,6 @@ export {
   passwordHasNameAndLetter,
   getNewUserId,
   findUser,
-  findCurrentPass
+  findCurrentPass,
+  passUsedBefore
 }
