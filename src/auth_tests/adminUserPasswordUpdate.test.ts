@@ -9,13 +9,13 @@ describe('adminUserPasswordUpdate', () => {
     let userIdValid: number;
     
     beforeEach(() => {
-        userIdValid = adminAuthRegister('valid@mail.com', 'VeryValidPassword1', 'validFirst', 'validLast').authUserId;
+        userIdValid = adminAuthRegister('valid@mail.com', 'VeryValidPassword12!', 'validFirst', 'validLast').authUserId;
     });
 
     describe('Error Cases', () => {
         test('Invalid UserId', () => {
             let userIdInvalid = userIdValid + 1;
-            expect(adminUserPasswordUpdate(userIdInvalid, 'VeryValidPassword1', 'VeryValidPassword2')).toStrictEqual({ error: expect.any(String) });
+            expect(adminUserPasswordUpdate(userIdInvalid, 'VeryValidPassword12!', 'VeryValidPassword2')).toStrictEqual({ error: expect.any(String) });
         });
 
         test('Old Password is not the correct old password', () => {
@@ -23,18 +23,18 @@ describe('adminUserPasswordUpdate', () => {
         });
 
         test('Old Password and New Password match exactly', () => {
-            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword1', 'VeryValidPassword1')).toStrictEqual({ error: expect.any(String) });
+            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword12!', 'VeryValidPassword12!')).toStrictEqual({ error: expect.any(String) });
         });
 
         test('New Password has already been used before by this user', () => {
             // Successfully changes password to Val!dPassword2
-            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword1', 'VeryValidPassword2')).toStrictEqual({});
+            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword12!', 'VeryValidPassword2!!')).toStrictEqual({});
             // Successfully changes password to Val!dPassword3
-            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword2', 'VeryValidPassword3')).toStrictEqual({});
+            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword2!!', 'VeryValidPassword3!!!')).toStrictEqual({});
             // Should fail to change password back to Val!dPassword2
-            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword3', 'VeryValidPassword2')).toStrictEqual({ error: expect.any(String) });
+            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword3!!!', 'VeryValidPassword2!!')).toStrictEqual({ error: expect.any(String) });
             // Should also fail to change password to Val!dPassword1
-            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword3', 'VeryValidPassword1')).toStrictEqual({ error: expect.any(String) });
+            expect(adminUserPasswordUpdate(userIdValid, 'VeryValidPassword3!!!', 'VeryValidPassword12!')).toStrictEqual({ error: expect.any(String) });
         });
 
         test.each([
@@ -57,8 +57,8 @@ describe('adminUserPasswordUpdate', () => {
 
     describe('Success Cases', () => {
         test.each([
-            { test: 'mainly letters', oldPassword: 'VeryValidPassword1', newPassword: 'VeryValidPassword2' },
-            { test: 'special characters', oldPassword: 'VeryValidPassword1', newPassword: 'VeryValidPassword!123' }
+            { test: 'mainly letters', oldPassword: 'VeryValidPassword12!', newPassword: 'VeryValidPassword2' },
+            { test: 'special characters', oldPassword: 'VeryValidPassword12!', newPassword: 'VeryValidPassword!123' }
         ])('Password successfully updated: $test', ({ oldPassword, newPassword }) => {
             expect(adminUserPasswordUpdate(userIdValid, oldPassword, newPassword)).toStrictEqual({});
         });
