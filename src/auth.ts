@@ -1,11 +1,11 @@
 import { getData, setData } from './dataStore';
 
 import {
-    EmailisUnused,
-    NameisValidCharacter,
-    NameisValidLength,
-    PasswordisValidLength,
-    PasswordHasNameAndLetter,
+    emailIsUnused,
+    nameIsValidCharacter,
+    nameIsValidLength,
+    passwordIsValidLength,
+    passwordHasNameAndLetter,
     getNewUserId
 } from './helperFile';
 
@@ -14,35 +14,35 @@ const validator = require('validator');
 function adminAuthRegister(email: string, password: string, nameFirst: string, nameLast: string) {
     let store = getData();
 
-    if (!EmailisUnused(email, store)) {
+    if (!emailIsUnused(email, store)) {
         return { error: 'Email is being used by another user!'};
     }
 
-    if (!validator.isEmail(email)) {     
+    if (!validator.isEmail(email)) {    
         return { error: 'Email address is not valid!' };
-    } 
+    }
 
-    if (!NameisValidCharacter(nameFirst)) {
+    if (!nameIsValidCharacter(nameFirst)) {
         return { error: "First name contains characters other than lowercase letters, uppercase letters, spaces, hyphens, or apostrophes!"};
     }
 
-    if (!NameisValidLength(nameFirst)) {
+    if (!nameIsValidLength(nameFirst)) {
         return { error: "First name is less than 2 characters or more than 20 characters!"};
     }
 
-    if (!NameisValidCharacter(nameLast)) {
+    if (!nameIsValidCharacter(nameLast)) {
         return { error: "Last name contains characters other than lowercase letters, uppercase letters, spaces, hyphens, or apostrophes!"};
     }
 
-    if (!NameisValidLength(nameLast)) {
+    if (!nameIsValidLength(nameLast)) {
         return { error: "Last name is less than 2 characters or more than 20 characters!"};
     }
 
-    if (!PasswordisValidLength(password)) {
+    if (!passwordIsValidLength(password)) {
         return { error: 'Password is less than 8 characters!' };
-    } 
-    
-    if (!PasswordHasNameAndLetter(password)){
+    }
+   
+    if (!passwordHasNameAndLetter(password)){
         return { error: 'Password must contain at least one letter and one number!' };
     }
 
@@ -50,26 +50,52 @@ function adminAuthRegister(email: string, password: string, nameFirst: string, n
 
     store.users.push({
         userId: newUserId,
-        nameFirst: nameFirst, 
+        nameFirst: nameFirst,
         nameLast: nameLast,
-        email: email, 
+        email: email,
         password: password,
         numSuccessfulLogins: 1,
         numFailedPasswordsSinceLastLogin: 0,
         passwordHistory: [password]
-    }); 
+    });
 
     setData(store);
-    
+   
     return {
         authUserId: newUserId
     }
 }
 
+/**
+  * Logs in a user using an email and password.
+  *
+  * @param {string} email - The email of the user.
+  * @param {string} password - The password of the user.
+  *
+  * @returns {{authUserId: number}} - An object containing the unique ID of the
+  *                                   user.
+*/
 function adminAuthLogin(email: string, password: string) {
-    return {
-        authUserId: 1
+    let store = getData()
+
+    email = email.toLowerCase();
+    const user = store.users.find((user) => user.email === email);
+    if (!user) {
+        return { error: 'Email address does not exist!' };
     }
+   
+    const correctPassword = store.users.find((user) => user.password === password);
+    if (!correctPassword) {
+        user.numFailedPasswordsSinceLastLogin++;
+        setData(store);
+        return { error: 'Password is not correct for the given email!' };
+    }
+
+    user.numSuccessfulLogins++;
+    user.numFailedPasswordsSinceLastLogin = 0;
+    setData(store);
+   
+    return { authUserId: user.userId };
 }
 
 function adminUserDetails(authUserId: number) {
@@ -118,6 +144,6 @@ function adminUpdateBalance(authUserId: number, amount: number) {
 
 export {
     adminAuthRegister,
-    adminAuthLogin, 
+    adminAuthLogin,
     adminUserDetails
 }
