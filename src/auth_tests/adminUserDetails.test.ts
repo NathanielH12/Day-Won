@@ -25,10 +25,8 @@ describe('AdminUserDetails', () => {
                     }
                 });
             });
-            test('Successfully', () => {
-
-            });
         });
+
         describe('numSuccessfulLogins Success Cases', () => {
             test('Successfully increments numSuccessfulLogins', () => {
                 adminAuthLogin('email@gmail.com', 'Password');
@@ -54,6 +52,7 @@ describe('AdminUserDetails', () => {
                 });
             });
         });
+        
         describe('numFailedPasswordsSinceLastLogin Success Cases', () => {
             test('Successfully increments numFailedPasswordsSinceLastLogin', () => {
                 adminAuthLogin('email@gmail.com', 'Password');

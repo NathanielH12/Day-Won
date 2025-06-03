@@ -109,16 +109,38 @@ function adminAuthLogin(email: string, password: string) {
     return { authUserId: user.userId };
 }
 
+/**
+  * Provides all relevant details about a select user.
+  *
+  * @param {number} authUserId - The unique ID of the user.
+  *
+  * @returns {{
+  *     user: {
+  *         userId: number,
+  *         name: string,
+  *         email: string,
+  *         numSuccessfulLogins: number,
+  *         numFailedPasswordsSinceLastLogin: number,
+  *     }
+  * }} - An object containing an object with the details of the user
+*/
 function adminUserDetails(authUserId: number) {
+    const currentData = getData();
+    
+    const user = currentData.users.find((user) => user.userId === authUserId);
+    if (!user) {
+        return { error: 'AuthUserId is not a valid user!' };
+    }
+
     return {
         user: {
-                userId: 1,
-                name: "Cormie Flakes",
-                email: "haydenFUUU@gmail.com",
-                numSuccessfulLogins: 3,
-                numFailedPasswordsSinceLastLogin: 1
+            userId: user.userId,
+            name: user.nameFirst + ' ' + user.nameLast,
+            email: user.email,
+            numSuccessfulLogins: user.numSuccessfulLogins,
+            numFailedPasswordsSinceLastLogin: user.numFailedPasswordsSinceLastLogin,
         }
-    }
+    };
 }
 
 function adminUserDetailsUpdate(authUserId: number, email: string, nameFirst: string, nameLast: string) {
