@@ -121,7 +121,7 @@ function adminUserDetails(authUserId: number) {
     }
 }
 
-function adminUserDetailsUpdate(authUserId: number, email: string, nameFirst: string) {
+function adminUserDetailsUpdate(authUserId: number, email: string, nameFirst: string, nameLast: string) {
     return { }
 }
 
@@ -202,5 +202,6 @@ export {
     adminAuthRegister,
     adminAuthLogin,
     adminUserDetails,
+    adminUserDetailsUpdate,
     adminUserPasswordUpdate
 }
