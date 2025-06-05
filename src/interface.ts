@@ -19,6 +19,11 @@ interface Quizzes {
     timeLastEdited: number,
 }
 
+interface Register {
+    authUserId?: number;
+    error?: string;
+}
+
 interface Data {
     users: Users[],
     quizzes: Quizzes[]
@@ -26,5 +31,6 @@ interface Data {
 
 export {
     Data,
-    Users
+    Users,
+    Register
 }

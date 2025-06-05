@@ -109,19 +109,89 @@ function adminAuthLogin(email: string, password: string) {
     return { authUserId: user.userId };
 }
 
+/**
+  * Provides all relevant details about a select user.
+  *
+  * @param {number} authUserId - The unique ID of the user.
+  *
+  * @returns {{
+  *     user: {
+  *         userId: number,
+  *         name: string,
+  *         email: string,
+  *         numSuccessfulLogins: number,
+  *         numFailedPasswordsSinceLastLogin: number,
+  *     }
+  * }} - An object containing an object with the details of the user
+*/
 function adminUserDetails(authUserId: number) {
+    const currentData = getData();
+
+    const user = currentData.users.find((user) => user.userId === authUserId);
+    if (!user) {
+        return { error: 'AuthUserId is not a valid user!' };
+    }
+
     return {
         user: {
-                userId: 1,
-                name: "Cormie Flakes",
-                email: "haydenFUUU@gmail.com",
-                numSuccessfulLogins: 3,
-                numFailedPasswordsSinceLastLogin: 1
+            userId: user.userId,
+            name: user.nameFirst + ' ' + user.nameLast,
+            email: user.email,
+            numSuccessfulLogins: user.numSuccessfulLogins,
+            numFailedPasswordsSinceLastLogin: user.numFailedPasswordsSinceLastLogin,
         }
-    }
+    };
 }
 
-function adminUserDetailsUpdate(authUserId: number, email: string, nameFirst: string) {
+/**
+  * Provides all relevant details about a select user.
+  *
+  * @param {number} authUserId - The unique ID of the user.
+  * @param {string} email - The email of the user.
+  * @param {string} nameFirst - The first name of the user.
+  * @param {string} nameLast - The last name of the user.
+  * 
+  * @returns {{ }} - An empty object.
+*/
+function adminUserDetailsUpdate(authUserId: number, email: string, nameFirst: string, nameLast: string) {
+    const store = getData();
+    const allowedCharacters = /^[a-zA-Z\s'-]+$/;
+    
+    const user = store.users.find((user) => user.userId === authUserId);
+    if (!user) {
+        return { error: 'AuthUserId is not a valid user!' };
+    }
+
+    const users = store.users.find((user) => user.email === email);
+    if (users) {
+        return { error: 'Email address is used by another user!' };
+    }
+
+    if (!validator.isEmail(email)) {
+        return { error: 'Email address is not valid!' };
+    }
+
+    if (!allowedCharacters.test(nameFirst)) {
+        return { error: 'First name contains invalid characters!' };
+    }
+
+    if (nameFirst.length < 2 || nameFirst.length > 20) {
+        return { error: 'First name must be larger than 2 characters or shorter than 20 characters!' };
+    }
+
+    if (!allowedCharacters.test(nameLast)) {
+        return { error: 'Last name contains invalid characters!' };
+    }
+
+    if (nameLast.length < 2 || nameLast.length > 20) {
+        return { error: 'Last name must be larger than 2 characters or shorter than 20 characters!' };
+    }
+
+    user.email = email;
+    user.nameFirst = nameFirst;
+    user.nameLast = nameLast;
+    setData(store);
+    
     return { }
 }
 
@@ -202,5 +272,6 @@ export {
     adminAuthRegister,
     adminAuthLogin,
     adminUserDetails,
+    adminUserDetailsUpdate,
     adminUserPasswordUpdate
 }
