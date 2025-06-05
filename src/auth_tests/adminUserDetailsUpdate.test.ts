@@ -65,7 +65,7 @@ describe('AdminUserDetailsUpdate', () => {
         });
 
     });
-    describe.skip('Success Cases', () => {
+    describe('Success Cases', () => {
         test('Successfully updates the new user details', () => {
             expect(adminUserDetailsUpdate(user.authUserId, newEmail, newFirstName, newLastName)).toStrictEqual({ });
             expect(adminUserDetails(user.authUserId)).toStrictEqual(
@@ -85,16 +85,3 @@ describe('AdminUserDetailsUpdate', () => {
 // Email is actually real and exists, not just valid
 // Ensures that you can't 'update' by entering the exact same details
 // 
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -12,7 +12,7 @@ const ERROR_STRING = { error: expect.any(String) };
 
 
 describe('AdminUserDetails', () => {
-    describe.skip('Success cases', () => {
+    describe('Success cases', () => {
         describe('General Cases', () => {
             test('Successfully returns user details', () => {
                 expect(adminUserDetails(user.authUserId)).toStrictEqual({
@@ -65,8 +65,8 @@ describe('AdminUserDetails', () => {
                         numFailedPasswordsSinceLastLogin: 0,
                     }
                 });
-                adminAuthLogin('sherryye2022@outlook.com', 'abcdef12H');
-                adminAuthLogin('sherryye2022@outlook.com', 'abcdef12H');
+                adminAuthLogin('email@gmail.com', 'Password');
+                adminAuthLogin('email@gmail.com', 'Password');
                 expect(adminUserDetails(user.authUserId)).toStrictEqual({
                     user: {
                         userId: user.authUserId,
