@@ -11,7 +11,7 @@ const newLastName = 'NewLast';
 
 beforeEach(()=> {
     clear();
-    user = adminAuthRegister('email@gmail.com', 'Password', 'Firstname', 'Lastname');
+    user = adminAuthRegister('email@gmail.com', '8Point!#p11k', 'Firstname', 'Lastname');
 });
 
 const ERROR_STRING = { error: expect.any(String) };
@@ -35,6 +35,7 @@ describe('AdminUserDetailsUpdate', () => {
 
             test('Email address is already in use', () => {
                 let secondUser = 'seconduser@gmail.com';
+                adminAuthRegister(secondUser, 'Secure33juno1AS(I#@!-', 'Second', 'User');
                 expect(adminUserDetailsUpdate(user.authUserId, secondUser, newFirstName, newLastName)).toStrictEqual(ERROR_STRING);
             });
         });

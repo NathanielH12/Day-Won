@@ -5,7 +5,7 @@ import { clear } from "../other";
 let user: Register;
 beforeEach(()=>{
   clear();
-  user = adminAuthRegister('email@gmail.com', 'Password', 'Firstname', 'Lastname');
+  user = adminAuthRegister('email@gmail.com', '8Point!#p11k', 'Firstname', 'Lastname');
 });
 
 const ERROR_STRING = { error: expect.any(String) };
@@ -29,7 +29,7 @@ describe('AdminUserDetails', () => {
 
         describe('numSuccessfulLogins Success Cases', () => {
             test('Successfully increments numSuccessfulLogins', () => {
-                adminAuthLogin('email@gmail.com', 'Password');
+                adminAuthLogin('email@gmail.com', '8Point!#p11k');
                 expect(adminUserDetails(user.authUserId)).toStrictEqual({
                     user: {
                         userId: user.authUserId,
@@ -39,8 +39,8 @@ describe('AdminUserDetails', () => {
                         numFailedPasswordsSinceLastLogin: 0,
                     }
                 });
-                adminAuthLogin('email@gmail.com', 'Password');
-                adminAuthLogin('email@gmail.com', 'Password');
+                adminAuthLogin('email@gmail.com', '8Point!#p11k');
+                adminAuthLogin('email@gmail.com', '8Point!#p11k');
                 expect(adminUserDetails(user.authUserId)).toStrictEqual({
                     user: {
                         userId: user.authUserId,
@@ -55,7 +55,7 @@ describe('AdminUserDetails', () => {
         
         describe('numFailedPasswordsSinceLastLogin Success Cases', () => {
             test('Successfully increments numFailedPasswordsSinceLastLogin', () => {
-                adminAuthLogin('email@gmail.com', 'Password');
+                adminAuthLogin('email@gmail.com', '8Point!#p11k');
                 expect(adminUserDetails(user.authUserId)).toStrictEqual({
                     user: {
                         userId: user.authUserId,
@@ -65,8 +65,8 @@ describe('AdminUserDetails', () => {
                         numFailedPasswordsSinceLastLogin: 0,
                     }
                 });
-                adminAuthLogin('email@gmail.com', 'Password');
-                adminAuthLogin('email@gmail.com', 'Password');
+                adminAuthLogin('email@gmail.com', '8Point!#p11k');
+                adminAuthLogin('email@gmail.com', '8Point!#p11k');
                 expect(adminUserDetails(user.authUserId)).toStrictEqual({
                     user: {
                         userId: user.authUserId,
