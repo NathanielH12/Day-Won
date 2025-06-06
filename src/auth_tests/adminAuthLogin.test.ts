@@ -53,7 +53,7 @@ describe('AdminAuthLogin', () => {
       expect(result2).toStrictEqual(SUCCESS);
     });
 
-    describe.skip('Login count tracking', () => {
+    describe('Login count tracking', () => {
       test('Number of successful logins increases', () => {
         const res1 = adminAuthLogin('userone@gmail.com', 'IsThisAValidPassword123!');
         expect(res1).toStrictEqual(SUCCESS);
