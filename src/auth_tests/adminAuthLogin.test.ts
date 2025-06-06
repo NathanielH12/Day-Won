@@ -2,12 +2,12 @@ import { adminAuthLogin, adminUserDetails } from '../auth';
 import { adminAuthRegister } from '../auth';
 import { clear } from '../other';
 
-beforeEach(()=> {
+beforeEach(() => {
   clear();
-})
+});
 
 const ERROR_STRING = { error: expect.any(String) };
-const SUCCESS = { authUserId: expect.any(Number) }
+const SUCCESS = { authUserId: expect.any(Number) };
 
 describe('AdminAuthLogin', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('AdminAuthLogin', () => {
       { test: 'Spaces before password.', email: 'userone@gmail.com', password: ' IsThisAValidPassword123!' },
       { test: 'Spaces after password.', email: 'userone@gmail.com', password: 'IsThisAValidPassword123! ' },
       { test: 'Spaces in middle of password.', email: 'userone@gmail.com', password: 'User 1Password12!' },
-    ])("$test", ({ email, password }) => {
+    ])('$test', ({ email, password }) => {
       const result = adminAuthLogin(email, password);
       expect(result).toStrictEqual(ERROR_STRING);
     });

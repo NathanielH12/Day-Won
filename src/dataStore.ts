@@ -1,13 +1,13 @@
 import { Data } from './interface';
 // DATA FOR USERS AND QUIZZES
 let data: Data = {
-    users: [],
-    quizzes: []
+  users: [],
+  quizzes: []
 };
 
 // Use getData() to access the data
 function getData() {
-    return data;
+  return data;
 }
 
 // Use detData(newData) to set new data
@@ -15,8 +15,4 @@ function setData(newData: Data) {
   data = newData;
 }
 
-  
 export { getData, setData };
-
-  
-  
