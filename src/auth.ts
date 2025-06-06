@@ -12,8 +12,8 @@ import {
   passUsedBefore
 } from './helperFileAuth';
 
-const validator = require('validator');
-const zxcvbn = require('zxcvbn');
+import validator from 'validator';
+import zxcvbn from 'zxcvbn';
 
 function adminAuthRegister(email: string, password: string, nameFirst: string, nameLast: string) {
   const store = getData();
