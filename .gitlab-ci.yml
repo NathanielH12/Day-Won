@@ -3,17 +3,27 @@ stages:
   - checks
 before_script:
   - npm install
+
 tests:
+  stage: checks
+  only:
+    - main
+    - merge_requests
+  script:
+    - npm run test
+
+linting:
   stage: checks
   only:
     - master
     - merge_requests
   script:
-    - npm run test
+    - npm run lint
+
 type-checking:
   stage: checks
   only:
-    - master
+    - main
     - merge_requests
   script:
     - npm run tsc
