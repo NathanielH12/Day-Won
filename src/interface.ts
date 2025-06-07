@@ -30,7 +30,7 @@ interface Data {
 }
 
 export {
-    Data,
-    Users,
-    Register
-}
+  Data,
+  Users,
+  Register
+};
