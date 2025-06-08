@@ -25,5 +25,17 @@ let data = {
       numQuestions: 1,
       questions: []
     }
+  ], 
+  timers: [
+    {
+      userId: 1,
+      timerId: 3,
+      timerName: 'timerOne',
+      timerHrs: 3,
+      timerMins: 3,
+      remainingTimeHrs: 3,
+      remainingTimeMins: 3,
+      remainingTimeSecs: 3
+    }
   ]
 }

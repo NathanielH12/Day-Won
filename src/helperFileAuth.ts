@@ -14,12 +14,12 @@ const MIN_PASSWORD_LENGTH = 8;
  * @returns {boolean} - Returns true if the email is unused, and false otherwise.
  */
 function emailIsUnused(email: string, store: Data) {
-  for (const user of store.users) {
-    if (user.email === email) {
-      return false;
+    for (const user of store.users) {
+        if (user.email === email) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 /**
@@ -30,13 +30,13 @@ function emailIsUnused(email: string, store: Data) {
  * @returns {boolean} - Returns true if the name contains only valid characters, and false otherwise.
  */
 function nameIsValidCharacter(name: string) {
-  for (let i = 0; i < name.length; i++) {
-    const character = name.charAt(i);
-    if (!((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || character === ' ' || character === '-' || character === '\'')) {
-      return false;
+    for (let i = 0; i < name.length; i++) {
+        const character = name.charAt(i);
+        if (!((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || character === ' ' || character === '-' || character === '\'')) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 /**
@@ -47,7 +47,7 @@ function nameIsValidCharacter(name: string) {
  * @returns {boolean} - Returns true if the name length is valid, and false otherwise.
  */
 function nameIsValidLength(name: string) {
-  return (name.length >= MIN_NAME_LENGTH && name.length <= MAX_NAME_LENGTH);
+    return (name.length >= MIN_NAME_LENGTH && name.length <= MAX_NAME_LENGTH);
 }
 
 /**
@@ -58,7 +58,7 @@ function nameIsValidLength(name: string) {
  * @returns {boolean} - Returns true if the password length is valid, and false otherwise.
  */
 function passwordIsValidLength(password: string) {
-  return (password.length >= MIN_PASSWORD_LENGTH);
+    return (password.length >= MIN_PASSWORD_LENGTH);
 }
 
 /**
@@ -69,19 +69,19 @@ function passwordIsValidLength(password: string) {
  * @returns {boolean} - Returns true if the password contains both a letter and a number, and false otherwise.
  */
 function passwordHasNameAndLetter(password: string) {
-  let hasLetter = false;
-  let hasNumber = false;
+    let hasLetter = false;
+    let hasNumber = false;
 
-  for (let i = 0; i < password.length; i++) {
-    const character = password.charAt(i);
-    if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')) {
-      hasLetter = true;
-    } else if (character >= '0' && character <= '9') {
-      hasNumber = true;
+    for (let i = 0; i < password.length; i++) {
+        const character = password.charAt(i);
+        if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')) {
+            hasLetter = true;
+        } else if (character >= '0' && character <= '9') {
+            hasNumber = true;
+        }
     }
-  }
 
-  return hasLetter && hasNumber;
+    return hasLetter && hasNumber;
 }
 
 /**
@@ -92,13 +92,13 @@ function passwordHasNameAndLetter(password: string) {
  * @returns {number} - Returns the maximum user ID.
  */
 function getNewUserId(users: Users[]) {
-  let maxUserId = 0;
-  for (const user of users) {
-    if (user.userId > maxUserId) {
-      maxUserId = user.userId;
+    let maxUserId = 0;
+    for (const user of users) {
+        if (user.userId > maxUserId) {
+            maxUserId = user.userId;
+        }
     }
-  }
-  return maxUserId + 1;
+    return maxUserId + 1;
 }
 
 /**
@@ -109,8 +109,8 @@ function getNewUserId(users: Users[]) {
  * @returns {Users}
  */
 function findUser(userId: number) {
-  const data = getData();
-  return data.users.find(user => user.userId === userId);
+    const data = getData();
+    return data.users.find(user => user.userId === userId);
 }
 
 /**
@@ -121,8 +121,8 @@ function findUser(userId: number) {
  * @returns {string}
  */
 function findCurrentPass(userId: number) {
-  const user = findUser(userId);
-  return user.password;
+    const user = findUser(userId);
+    return user.password;
 }
 
 /**
@@ -134,22 +134,22 @@ function findCurrentPass(userId: number) {
  * @returns {boolean}
  */
 function passUsedBefore(userId: number, password: string) {
-  const user = findUser(userId);
-  const passUsed = user.passwordHistory.find(pass => pass === password);
-  if (!passUsed) {
-    return false;
-  }
-  return true;
+    const user = findUser(userId);
+    const passUsed = user.passwordHistory.find(pass => pass === password);
+    if (!passUsed) {
+        return false;
+    }
+    return true;
 }
 
 export {
-  emailIsUnused,
-  nameIsValidCharacter,
-  nameIsValidLength,
-  passwordIsValidLength,
-  passwordHasNameAndLetter,
-  getNewUserId,
-  findUser,
-  findCurrentPass,
-  passUsedBefore
+    emailIsUnused,
+    nameIsValidCharacter,
+    nameIsValidLength,
+    passwordIsValidLength,
+    passwordHasNameAndLetter,
+    getNewUserId,
+    findUser,
+    findCurrentPass,
+    passUsedBefore
 };
