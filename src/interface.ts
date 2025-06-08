@@ -19,6 +19,17 @@ interface Quizzes {
     timeLastEdited: number,
 }
 
+interface Timers {
+    userId: number,
+    timerId: number,
+    timerName: string,
+    timerHrs: number,
+    timerMins: number,
+    remainingTimeHrs: number,
+    remainingTimeMins: number,
+    remainingTimeSecs: number
+}
+
 interface Register {
     authUserId?: number;
     error?: string;
@@ -26,11 +37,12 @@ interface Register {
 
 interface Data {
     users: Users[],
-    quizzes: Quizzes[]
+    quizzes: Quizzes[],
+    timers: Timers[]
 }
 
 export {
-  Data,
-  Users,
-  Register
+    Data,
+    Users,
+    Register
 };

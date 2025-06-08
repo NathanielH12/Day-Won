@@ -7,9 +7,9 @@ import { getData } from './dataStore';
  * empty object is being returned
  */
 function clear() {
-  const data = getData();
-  data.users = [];
-  data.quizzes = [];
-  return {};
+    const data = getData();
+    data.users = [];
+    data.quizzes = [];
+    return {};
 }
 export { clear };
