@@ -30,6 +30,7 @@ let data = {
     {
       userId: 1,
       timerId: 3,
+      timerState: INACTIVE,
       timerName: 'timerOne',
       timerHrs: 3,
       timerMins: 3,

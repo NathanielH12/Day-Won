@@ -21,6 +21,7 @@ interface Quizzes {
 
 interface Timers {
     userId: number,
+    timerState: TimerState,
     timerId: number,
     timerName: string,
     timerHrs: number,
@@ -28,6 +29,11 @@ interface Timers {
     remainingTimeHrs: number,
     remainingTimeMins: number,
     remainingTimeSecs: number
+}
+
+enum TimerState {
+    ACTIVE = 1,
+    INACTIVE = 0
 }
 
 interface Register {
@@ -44,5 +50,7 @@ interface Data {
 export {
     Data,
     Users,
-    Register
+    Register,
+    Timers,
+    TimerState
 };
