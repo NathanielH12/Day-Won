@@ -85,11 +85,11 @@ function passwordHasNameAndLetter(password: string) {
 }
 
 /**
- * Gets the maximum userId from the list of users.
+ * Gets a new userId by incrementing maximum userId from the list of users.
  *
  * @param {Array} users - Array of user objects.
  *
- * @returns {number} - Returns the maximum user ID.
+ * @returns {number} - Returns the new user ID.
  */
 function getNewUserId(users: Users[]) {
     let maxUserId = 0;
