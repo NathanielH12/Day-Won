@@ -10,6 +10,7 @@ function clear() {
     const data = getData();
     data.users = [];
     data.quizzes = [];
+    data.timers = [];
     return {};
 }
 export { clear };
