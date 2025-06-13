@@ -17,6 +17,12 @@ describe('adminTimerCreate', () => {
     });
 
     describe('Error cases', () => {
+        test('Returns an error when userId is invalid', () => {
+            const invalidUserId = userId + 999;
+            const result = adminTimerCreate(invalidUserId, 'validTimer', 30);
+            expect(result).toStrictEqual(ERROR);
+        });
+
         test('timerName is longer than 30 characters', () => {
             const result = adminTimerCreate(userId, 'thisIsLongerThanThirtyCharacters', 30);
             expect(result).toStrictEqual(ERROR);
@@ -50,6 +56,13 @@ describe('adminTimerCreate', () => {
             const newTimer = adminTimerCreate(userId, 'Timer Two', 30);
             expect(newTimer).toStrictEqual(ERROR);
         });
+
+        test('Returns an error if timerName is same but timerLength is different', () => {
+            const timer1 = adminTimerCreate(userId, 'sameTimerName', 30);
+            expect(timer1).toStrictEqual(SUCCESS);
+            const timer2 = adminTimerCreate(userId, 'sameTimerName', 60);
+            expect(timer2).toStrictEqual(ERROR);
+        });
     });
 
     describe('Success cases', () => {
@@ -82,6 +95,12 @@ describe('adminTimerCreate', () => {
 
             test('Successfully creates a timer for 1 minute', () => {
                 const result = adminTimerCreate(userId, 'One Minute Timer', 1);
+                expect(result).toStrictEqual(SUCCESS);
+            });
+
+            test('Successfully creates a timer with maximum length timerName (30 characters)', () => {
+                const maxLengthName = 'a'.repeat(30);
+                const result = adminTimerCreate(userId, maxLengthName, 30);
                 expect(result).toStrictEqual(SUCCESS);
             });
         });

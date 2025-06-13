@@ -66,10 +66,22 @@ function getNewTimerId(timers: Timers[]) {
     return maxTimerId + 1;
 }
 
+/**
+ * Checks if the timer name is already in use.
+ *
+ * @param {Array} timers - Array of timer objects.
+ *
+ * @returns {boolean} - Returns true if there exists a timer with that name and false otherwise.
+ */
+function isTimerNameUsed(timers: Timers[], name: string) {
+    return timers.find(timer => timer.timerName === name);
+}
+
 export {
     nameIsValidLength,
     lengthIsValidLength,
     getNewTimerId,
     isAnyTimersActive,
-    isAnyTimersSameLength
+    isAnyTimersSameLength,
+    isTimerNameUsed
 };

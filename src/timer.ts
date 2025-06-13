@@ -5,14 +5,25 @@ import {
     lengthIsValidLength,
     getNewTimerId,
     isAnyTimersActive,
-    isAnyTimersSameLength
+    isAnyTimersSameLength,
+    isTimerNameUsed
 } from './helperFileTimer';
+
+import { findUser } from './helperFileAuth';
 
 const MINUTES_PER_HOUR = 60;
 const SECONDS_PER_MINUTE = 60;
 
 function adminTimerCreate(authUserId: number, timerName: string, timeLength: number) {
     const store = getData();
+
+    if (!findUser(authUserId)) {
+        return { error: 'authUserId does not exist!' };
+    }
+
+    if (isTimerNameUsed(store.timers, timerName)) {
+        return { error: 'Timer name is already in use!' };
+    }
 
     if (!nameIsValidLength(timerName)) {
         return { error: 'Timer name is more than 30 characters!' };
