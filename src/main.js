@@ -15,6 +15,7 @@ function startTimer() {
         isTimerOn = false;
         startBtn.innerHTML = 'Start';
     } else {
+        updateTimer();
         timerId = setInterval(updateTimer, 1000);
         isTimerOn = true;
         startBtn.innerHTML = 'Pause';
