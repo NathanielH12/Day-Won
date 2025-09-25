@@ -1,5 +1,5 @@
 
-const startingTime = 30 * 60;
+const startingTime = 30 * 60 * 100;
 let time = startingTime;
 let isTimerOn = false;
 let timerId = null;
@@ -16,22 +16,24 @@ function startTimer() {
         startBtn.innerHTML = 'Start';
     } else {
         updateTimer();
-        timerId = setInterval(updateTimer, 1000);
+        timerId = setInterval(updateTimer, 10);
         isTimerOn = true;
         startBtn.innerHTML = 'Pause';
     }
 }
 
 function updateDisplay() {
-    let hours = Math.floor(time / (60 * 60));
-    let minutes = Math.floor((time % (60 * 60)) / 60);
-    let seconds = time % 60;
+    const totalSeconds = Math.floor(time / 100);
+    let hours = Math.floor(totalSeconds / (60 * 60));
+    let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+    let seconds = totalSeconds % 60;
+    const milseconds = time % 100;
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
-    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+    timer.innerHTML = `${hours}:${minutes}:${seconds}:${milseconds}`;
 }
 
 function updateTimer() {
