@@ -23,7 +23,7 @@ function startTimer() {
 }
 
 function updateDisplay() {
-    let totalSeconds = Math.floor(time / 100);
+    const totalSeconds = Math.floor(time / 100);
     let hours = Math.floor(totalSeconds / (60 * 60));
     let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     let seconds = totalSeconds % 60;
