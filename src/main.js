@@ -6,6 +6,7 @@ let timerId = null;
 
 const timer = document.getElementById('timer');
 const startBtn = document.getElementById('startBtn');
+const resetBtn = document.getElementById('resetBtn');
 
 function startTimer() {
     if (isTimerOn === true) {
@@ -40,5 +41,24 @@ function updateTimer() {
     timer.innerHTML = `${hours}:${minutes}:${seconds}`;
     time--;
 }
+
+
+function resetTimer() {
+    clearInterval(timerId);
+    time = startingTime;
+    isTimerOn = false;
+    startBtn.innerHTML = 'Start';
+    
+    let hours = Math.floor(time / (60 * 60));
+    let minutes = Math.floor((time % (60 * 60)) / 60);
+    let seconds = time % 60;
+
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+}
+
 
 startBtn.addEventListener('click', startTimer);
