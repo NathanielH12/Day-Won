@@ -21,6 +21,18 @@ function startTimer() {
     }
 }
 
+function updateDisplay() {
+    let hours = Math.floor(time / (60 * 60));
+    let minutes = Math.floor((time % (60 * 60)) / 60);
+    let seconds = time % 60;
+
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+}
+
 function updateTimer() {
     if (time <= 0) {
         clearInterval(timerId);
@@ -30,35 +42,17 @@ function updateTimer() {
         return;
     }
 
-    let hours = Math.floor(time / (60 * 60));
-    let minutes = Math.floor((time % (60 * 60)) / 60);
-    let seconds = time % 60;
-
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+    updateDisplay();
     time--;
 }
-
 
 function resetTimer() {
     clearInterval(timerId);
     time = startingTime;
     isTimerOn = false;
     startBtn.innerHTML = 'Start';
-    
-    let hours = Math.floor(time / (60 * 60));
-    let minutes = Math.floor((time % (60 * 60)) / 60);
-    let seconds = time % 60;
 
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+    updateDisplay();
 }
-
 
 startBtn.addEventListener('click', startTimer);
