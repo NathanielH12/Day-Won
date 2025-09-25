@@ -40,7 +40,7 @@ function updateDisplay() {
 function updateTimer() {
     if (time <= 0) {
         clearInterval(timerId);
-        timer.innerHTML = '00:00:00';
+        timer.innerHTML = '00:00:00:00';
         time = startingTime;
         isTimerOn = false;
         return;
