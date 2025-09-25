@@ -56,3 +56,4 @@ function resetTimer() {
 }
 
 startBtn.addEventListener('click', startTimer);
+resetBtn.addEventListener('click', resetTimer);
