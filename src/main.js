@@ -7,6 +7,7 @@ let timerId = null;
 const timer = document.getElementById('timer');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const customiseBtn = document.getElementById('customiseBtn');
 
 function startTimer() {
     if (isTimerOn === true) {
@@ -59,5 +60,11 @@ function resetTimer() {
     updateDisplay();
 }
 
+function customiseTimer() {
+    resetTimer();
+    // then begin adding functionality for customising the timer
+}
+
 startBtn.addEventListener('click', startTimer);
 resetBtn.addEventListener('click', resetTimer);
+customiseBtn.addEventListener('click', customiseTimer);
