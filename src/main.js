@@ -28,12 +28,10 @@ function updateDisplay() {
     let hours = Math.floor(totalSeconds / (60 * 60));
     let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     let seconds = totalSeconds % 60;
-    let milseconds = time % 100;
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
-    milseconds = milseconds < 10 ? '0' + milseconds : milseconds;
 
     timer.innerHTML = `${hours}:${minutes}:${seconds}`;
 }
