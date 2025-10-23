@@ -35,7 +35,7 @@ function updateDisplay() {
     seconds = seconds < 10 ? '0' + seconds : seconds;
     milseconds = milseconds < 10 ? '0' + milseconds : milseconds;
 
-    timer.innerHTML = `${hours}:${minutes}:${seconds}:${milseconds}`;
+    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
 }
 
 function updateTimer() {
