@@ -2,7 +2,7 @@ import {
     startTimer,
     resetTimer,
     customiseTimer
-} from "./timer";
+} from "timer";
 
 const timer = document.getElementById('timer');
 const startBtn = document.getElementById('startBtn');
