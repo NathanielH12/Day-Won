@@ -4,10 +4,22 @@ let time = startingTime;
 let isTimerOn = false;
 let timerId = null;
 
+const FIVE_MINUTES = 60 * 100 * 5;
+
 const timer = document.getElementById('timer');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const customiseBtn = document.getElementById('customiseBtn');
+const minUpBtn = document.getElementById('minUpBtn');
+const minDownBtn = document.getElementById('minDownBtn');
+
+minUpBtn.style.display = 'none';
+minDownBtn.style.display = 'none';
+
+function hideCustomiseBtns() {
+    minUpBtn.style.display = 'none';
+    minDownBtn.style.display = 'none';
+}
 
 function startTimer() {
     if (isTimerOn === true) {
@@ -21,9 +33,12 @@ function startTimer() {
         isTimerOn = true;
         startBtn.innerHTML = 'Pause';
     }
+
+    hideCustomiseBtns();
 }
 
 function updateDisplay() {
+    time = Math.max(0, time); 
     const totalSeconds = Math.floor(time / 100);
     let hours = Math.floor(totalSeconds / (60 * 60));
     let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
@@ -58,11 +73,25 @@ function resetTimer() {
     updateDisplay();
 }
 
+function incrementMin() {
+    time += FIVE_MINUTES;
+    updateDisplay();
+}
+
+function decrementMin() {
+    time -= FIVE_MINUTES;
+    updateDisplay();
+}
+
 function customiseTimer() {
     resetTimer();
-    // then begin adding functionality for customising the timer
+
+    minUpBtn.style.display = 'block';
+    minDownBtn.style.display = 'block';
 }
 
 startBtn.addEventListener('click', startTimer);
 resetBtn.addEventListener('click', resetTimer);
 customiseBtn.addEventListener('click', customiseTimer);
+minUpBtn.addEventListener('click', incrementMin);
+minDownBtn.addEventListener('click', decrementMin);
