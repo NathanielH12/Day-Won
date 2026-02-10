@@ -69,8 +69,9 @@ function resetTimer() {
     time = startingTime;
     isTimerOn = false;
     startBtn.innerHTML = 'Start';
-
+    
     updateDisplay();
+    hideCustomiseBtns();
 }
 
 function incrementMin() {
