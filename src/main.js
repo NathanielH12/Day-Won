@@ -79,9 +79,7 @@ function incrementHour() {
 
 function decrementHour() {
     const decrementedTime = time - (60 * 60 * 100);
-    if (decrementedTime <= 0) {
-        // do nothing
-    } else {
+    if (decrementedTime > 0) {
         time = decrementedTime;
         updateDisplay();
     }
