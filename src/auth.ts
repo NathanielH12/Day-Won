@@ -236,7 +236,7 @@ function adminUserPasswordUpdate(authUserId: number, oldPassword: string, newPas
         return { error: 'New Password must contain at least one letter and one number' };
     }
 
-    const user = findUser(authUserId);
+    const user = findUser(authUserId)!;
     user.password = newPassword;
     user.passwordHistory.push(newPassword);
 
