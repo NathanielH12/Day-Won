@@ -8,7 +8,7 @@ export default [
     ...configs.recommended,
     {
         files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-        ignores: [],
+        ignores: ['dist/timer.js'],
         plugins: {
             '@typescript-eslint': plugin,
             jest: eslintPluginJest,

@@ -1,5 +1,7 @@
-const TimerReset = true;
-const startingTime = 30 * 60 * 100;
+const ONE_SEC = 100;
+const ONE_MIN = 60 * ONE_SEC;
+
+const startingTime = 30 * ONE_MIN;
 let time = startingTime;
 let isTimerOn = false;
 let timerId : ReturnType<typeof setInterval>;
@@ -41,4 +43,6 @@ export function getTime() {
     return time;
 }
 
-
+export function setTime(newTime : number) {
+    time = newTime;
+}
