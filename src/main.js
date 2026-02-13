@@ -1,8 +1,14 @@
+import {
+    toggleTimerLogic,
+    resetTimer,
+    timerOn,
+    getTime,
+    setTime
+} from '../dist/timer.js';
 
-const startingTime = 30 * 60 * 100;
-let time = startingTime;
-let isTimerOn = false;
-let timerId = null;
+const ONE_SEC = 100;
+const ONE_MIN = 60 * ONE_SEC;
+const ONE_HOUR = 60 * ONE_MIN;
 
 const timer = document.getElementById('timer');
 const startBtn = document.getElementById('startBtn');
@@ -13,88 +19,65 @@ const hourDownBtn = document.getElementById('hourDownBtn');
 
 hourUpBtn.style.display = 'none';
 hourDownBtn.style.display = 'none';
+let isCustomising = false;
 
 function hideCustomiseBtns() {
+    isCustomising = false;
     hourUpBtn.style.display = 'none';
     hourDownBtn.style.display = 'none';
 }
 
-function startTimer() {
-    if (isTimerOn === true) {
-        // Timer is counting down, pause it
-        clearInterval(timerId);
-        isTimerOn = false;
-        startBtn.innerHTML = 'Start';
-    } else {
-        updateTimer();
-        timerId = setInterval(updateTimer, 10);
-        isTimerOn = true;
-        startBtn.innerHTML = 'Pause';
-    }
-
-    hideCustomiseBtns();
-}
-
-function updateDisplay() {
+export function updateDisplay() {
+    const time = getTime();
     const totalSeconds = Math.floor(time / 100);
     let hours = Math.floor(totalSeconds / (60 * 60));
     let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     let seconds = totalSeconds % 60;
+
+    if (!isCustomising) {
+        hideCustomiseBtns();
+    } else {
+        isCustomising = true;
+    }
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
     timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+
+    startBtn.innerHTML = timerOn() ? 'Pause' : 'Start';
 }
 
-function updateTimer() {
-    if (time <= 0) {
-        clearInterval(timerId);
-        timer.innerHTML = '00:00:00:00';
-        time = startingTime;
-        isTimerOn = false;
-        return;
-    }
-
-    updateDisplay();
-    time--;
-}
-
-function resetTimer() {
-    clearInterval(timerId);
-    time = startingTime;
-    isTimerOn = false;
-    startBtn.innerHTML = 'Start';
-
-    updateDisplay();
-    hideCustomiseBtns();
-}
+setInterval(updateDisplay, 10);
 
 function incrementHour() {
-    // set max hours restriction?
-    time += 60 * 60 * 100;
-    updateDisplay();
+    const newTime = getTime() + ONE_HOUR;
+
+    if (newTime <= 25 * ONE_HOUR) {
+        setTime(newTime);
+        updateDisplay();
+    }
 }
 
 function decrementHour() {
-    const decrementedTime = time - (60 * 60 * 100);
+    const time = getTime();
+    const decrementedTime = time - ONE_HOUR;
     if (decrementedTime > 0) {
-        time = decrementedTime;
+        setTime(decrementedTime);
         updateDisplay();
     }
 }
 
 function customiseTimer() {
     resetTimer();
-    // then begin adding functionality for customising the timer
 
-    // when pressed increment, decrement and save buttons pop up
+    isCustomising = true;
     hourUpBtn.style.display = 'block';
     hourDownBtn.style.display = 'block';
 }
 
-startBtn.addEventListener('click', startTimer);
+startBtn.addEventListener('click', toggleTimerLogic);
 resetBtn.addEventListener('click', resetTimer);
 customiseBtn.addEventListener('click', customiseTimer);
 hourUpBtn.addEventListener('click', incrementHour);
