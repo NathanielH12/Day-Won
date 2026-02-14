@@ -121,7 +121,8 @@ function findUser(userId: number) {
  * @returns {string}
  */
 function findCurrentPass(userId: number) {
-    const user = findUser(userId);
+    // TODO: error check if user does not exist, temporary fix: NOT operator after findUser function
+    const user = findUser(userId)!;
     return user.password;
 }
 
@@ -134,7 +135,8 @@ function findCurrentPass(userId: number) {
  * @returns {boolean}
  */
 function passUsedBefore(userId: number, password: string) {
-    const user = findUser(userId);
+    const user = findUser(userId)!;
+    // TODO: error check if user does not exist, temporary fix: NOT operator after findUser function
     const passUsed = user.passwordHistory.find(pass => pass === password);
     if (!passUsed) {
         return false;

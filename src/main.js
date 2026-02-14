@@ -1,98 +1,105 @@
+import {
+    toggleTimerLogic,
+    resetTimer,
+    timerOn,
+    getTime,
+    setTime
+} from '../dist/timer.js';
 
-const startingTime = 30 * 60 * 100;
-let time = startingTime;
-let isTimerOn = false;
-let timerId = null;
-
-const FIVE_MINUTES = 60 * 100 * 5;
+const ONE_SEC = 100;
+const ONE_MIN = 60 * ONE_SEC;
+const ONE_HOUR = 60 * ONE_MIN;
 
 const timer = document.getElementById('timer');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const customiseBtn = document.getElementById('customiseBtn');
+const hourUpBtn = document.getElementById('hourUpBtn');
+const hourDownBtn = document.getElementById('hourDownBtn');
 const minUpBtn = document.getElementById('minUpBtn');
 const minDownBtn = document.getElementById('minDownBtn');
 
-minUpBtn.style.display = 'none';
-minDownBtn.style.display = 'none';
+hourUpBtn.style.display = 'none';
+hourDownBtn.style.display = 'none';
+let isCustomising = false;
 
 function hideCustomiseBtns() {
-    minUpBtn.style.display = 'none';
-    minDownBtn.style.display = 'none';
+    isCustomising = false;
+    hourUpBtn.style.display = 'none';
+    hourDownBtn.style.display = 'none';
 }
 
-function startTimer() {
-    if (isTimerOn === true) {
-        // Timer is counting down, pause it
-        clearInterval(timerId);
-        isTimerOn = false;
-        startBtn.innerHTML = 'Start';
-    } else {
-        updateTimer();
-        timerId = setInterval(updateTimer, 10);
-        isTimerOn = true;
-        startBtn.innerHTML = 'Pause';
-    }
-
-    hideCustomiseBtns();
-}
-
-function updateDisplay() {
-    time = Math.max(0, time); 
+export function updateDisplay() {
+    const time = getTime();
     const totalSeconds = Math.floor(time / 100);
     let hours = Math.floor(totalSeconds / (60 * 60));
     let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     let seconds = totalSeconds % 60;
+
+    if (!isCustomising) {
+        hideCustomiseBtns();
+    } else {
+        isCustomising = true;
+    }
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
     timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+
+    startBtn.innerHTML = timerOn() ? 'Pause' : 'Start';
 }
 
-function updateTimer() {
-    if (time <= 0) {
-        clearInterval(timerId);
-        timer.innerHTML = '00:00:00:00';
-        time = startingTime;
-        isTimerOn = false;
-        return;
+setInterval(updateDisplay, 10);
+
+function incrementHour() {
+    const newTime = getTime() + ONE_HOUR;
+
+    if (newTime <= 25 * ONE_HOUR) {
+        setTime(newTime);
+        updateDisplay();
     }
-
-    updateDisplay();
-    time--;
 }
 
-function resetTimer() {
-    clearInterval(timerId);
-    time = startingTime;
-    isTimerOn = false;
-    startBtn.innerHTML = 'Start';
-    
-    updateDisplay();
-    hideCustomiseBtns();
+function decrementHour() {
+    const time = getTime();
+    const decrementedTime = time - ONE_HOUR;
+    if (decrementedTime > 0) {
+        setTime(decrementedTime);
+        updateDisplay();
+    }
 }
 
 function incrementMin() {
-    time += FIVE_MINUTES;
+    const newTime = getTime() + (5 * ONE_MIN);
+    setTime(newTime);
     updateDisplay();
 }
 
 function decrementMin() {
-    time -= FIVE_MINUTES;
-    updateDisplay();
+    const time = getTime();
+    const decrementedTime = time - (5 * ONE_MIN);
+    if (decrementedTime > 0) {
+        setTime(decrementedTime);
+        updateDisplay();
+    }
 }
 
 function customiseTimer() {
     resetTimer();
 
+    isCustomising = true;
+    hourUpBtn.style.display = 'block';
+    hourDownBtn.style.display = 'block';
     minUpBtn.style.display = 'block';
     minDownBtn.style.display = 'block';
 }
 
-startBtn.addEventListener('click', startTimer);
+startBtn.addEventListener('click', toggleTimerLogic);
 resetBtn.addEventListener('click', resetTimer);
 customiseBtn.addEventListener('click', customiseTimer);
+hourUpBtn.addEventListener('click', incrementHour);
+hourDownBtn.addEventListener('click', decrementHour);
 minUpBtn.addEventListener('click', incrementMin);
 minDownBtn.addEventListener('click', decrementMin);
