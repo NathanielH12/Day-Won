@@ -16,6 +16,8 @@ const resetBtn = document.getElementById('resetBtn');
 const customiseBtn = document.getElementById('customiseBtn');
 const hourUpBtn = document.getElementById('hourUpBtn');
 const hourDownBtn = document.getElementById('hourDownBtn');
+const minUpBtn = document.getElementById('minUpBtn');
+const minDownBtn = document.getElementById('minDownBtn');
 
 hourUpBtn.style.display = 'none';
 hourDownBtn.style.display = 'none';
@@ -69,12 +71,29 @@ function decrementHour() {
     }
 }
 
+function incrementMin() {
+    const newTime = getTime() + (5 * ONE_MIN);
+    setTime(newTime);
+    updateDisplay();
+}
+
+function decrementMin() {
+    const time = getTime();
+    const decrementedTime = time - (5 * ONE_MIN);
+    if (decrementedTime > 0) {
+        setTime(decrementedTime);
+        updateDisplay();
+    }
+}
+
 function customiseTimer() {
     resetTimer();
 
     isCustomising = true;
     hourUpBtn.style.display = 'block';
     hourDownBtn.style.display = 'block';
+    minUpBtn.style.display = 'block';
+    minDownBtn.style.display = 'block';
 }
 
 startBtn.addEventListener('click', toggleTimerLogic);
@@ -82,3 +101,5 @@ resetBtn.addEventListener('click', resetTimer);
 customiseBtn.addEventListener('click', customiseTimer);
 hourUpBtn.addEventListener('click', incrementHour);
 hourDownBtn.addEventListener('click', decrementHour);
+minUpBtn.addEventListener('click', incrementMin);
+minDownBtn.addEventListener('click', decrementMin);
