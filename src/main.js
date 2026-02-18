@@ -19,14 +19,13 @@ const hourDownBtn = document.getElementById('hourDownBtn');
 const minUpBtn = document.getElementById('minUpBtn');
 const minDownBtn = document.getElementById('minDownBtn');
 
-hourUpBtn.style.display = 'none';
-hourDownBtn.style.display = 'none';
-let isCustomising = false;
+hideCustomiseBtns();
 
 function hideCustomiseBtns() {
-    isCustomising = false;
     hourUpBtn.style.display = 'none';
     hourDownBtn.style.display = 'none';
+    minUpBtn.style.display = 'none';
+    minDownBtn.style.display = 'none';
 }
 
 export function updateDisplay() {
@@ -35,12 +34,6 @@ export function updateDisplay() {
     let hours = Math.floor(totalSeconds / (60 * 60));
     let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     let seconds = totalSeconds % 60;
-
-    if (!isCustomising) {
-        hideCustomiseBtns();
-    } else {
-        isCustomising = true;
-    }
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -89,15 +82,24 @@ function decrementMin() {
 function customiseTimer() {
     resetTimer();
 
-    isCustomising = true;
     hourUpBtn.style.display = 'block';
     hourDownBtn.style.display = 'block';
     minUpBtn.style.display = 'block';
     minDownBtn.style.display = 'block';
 }
 
-startBtn.addEventListener('click', toggleTimerLogic);
-resetBtn.addEventListener('click', resetTimer);
+startBtn.addEventListener('click', () => {
+    toggleTimerLogic();
+    if (timerOn()) {
+        hideCustomiseBtns();
+    }
+});
+
+resetBtn.addEventListener('click', () => {
+    resetTimer();
+    hideCustomiseBtns();
+});
+
 customiseBtn.addEventListener('click', customiseTimer);
 hourUpBtn.addEventListener('click', incrementHour);
 hourDownBtn.addEventListener('click', decrementHour);
