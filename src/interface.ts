@@ -10,14 +10,14 @@ interface Users {
     passwordHistory: string[];
 }
 
-interface Quizzes {
-    userId: number,
-    quizId: number,
-    name: string,
-    description: string,
-    timeCreated: number,
-    timeLastEdited: number,
-}
+// interface Quizzes {
+//     userId: number,
+//     quizId: number,
+//     name: string,
+//     description: string,
+//     timeCreated: number,
+//     timeLastEdited: number,
+// }
 
 interface Timers {
     userId: number,
@@ -30,19 +30,17 @@ interface Timers {
     remainingTimeSecs: number
 }
 
-interface Register {
-    authUserId?: number;
-    error?: string;
-}
+// interface Register {
+//     authUserId?: number;
+//     error?: string;
+// }
 
 interface Data {
     users: Users[],
-    quizzes: Quizzes[],
     timers: Timers[]
 }
 
 export {
     Data,
     Users,
-    Register
 };

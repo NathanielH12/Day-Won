@@ -1,8 +1,6 @@
 import { Data } from './interface';
-// DATA FOR USERS AND QUIZZES
 let data: Data = {
     users: [],
-    quizzes: [],
     timers: []
 };
 
