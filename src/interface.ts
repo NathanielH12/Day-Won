@@ -30,11 +30,6 @@ interface Timers {
     remainingTimeSecs: number
 }
 
-// interface Register {
-//     authUserId?: number;
-//     error?: string;
-// }
-
 interface Data {
     users: Users[],
     timers: Timers[]
