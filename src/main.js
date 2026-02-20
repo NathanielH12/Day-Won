@@ -84,7 +84,7 @@ function decrementMin() {
 
 async function customiseOrSaveTimer() {
     if (!isCustomising) {
-        resetTimer();
+        resetTimer(startingTime);
 
         hourUpBtn.style.display = 'block';
         hourDownBtn.style.display = 'block';
@@ -147,7 +147,7 @@ startBtn.addEventListener('click', () => {
 });
 
 resetBtn.addEventListener('click', () => {
-    resetTimer();
+    resetTimer(startingTime);
     hideCustomiseBtns();
     updateDisplay();
 });

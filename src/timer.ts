@@ -1,8 +1,7 @@
 const ONE_SEC = 100;
 const ONE_MIN = 60 * ONE_SEC;
 
-const startingTime = 30 * ONE_MIN;
-let time = startingTime;
+let time = 0;
 let isTimerOn = false;
 let timerId : ReturnType<typeof setInterval>;
 console.log('timer.js loaded');
@@ -29,9 +28,9 @@ function updateTimer() {
     time--;
 }
 
-export function resetTimer() {
+export function resetTimer(newTime: number) {
     clearInterval(timerId);
-    time = startingTime;
+    time = newTime;
     isTimerOn = false;
 }
 
