@@ -6,6 +6,8 @@ import {
     setTime
 } from '../dist/timer.js';
 
+let startingTime = 0;
+
 const ONE_SEC = 100;
 const ONE_MIN = 60 * ONE_SEC;
 const ONE_HOUR = 60 * ONE_MIN;
@@ -127,9 +129,7 @@ async function loadSavedTimer() {
         const response = await fetch("http://localhost:5500/timer/load");
         const data = await response.json();
 
-
         const totalTime = (data.remainingTimeHrs * 3600 + data.remainingTimeMins * 60 + data.remainingTimeSecs) * 100
-
 
         setTime(totalTime);
         startingTime = totalTime;
@@ -149,6 +149,7 @@ startBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
     resetTimer();
     hideCustomiseBtns();
+    updateDisplay();
 });
 
 customiseBtn.addEventListener('click', customiseOrSaveTimer);
@@ -156,3 +157,5 @@ hourUpBtn.addEventListener('click', incrementHour);
 hourDownBtn.addEventListener('click', decrementHour);
 minUpBtn.addEventListener('click', incrementMin);
 minDownBtn.addEventListener('click', decrementMin);
+
+loadSavedTimer();
