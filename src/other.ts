@@ -8,9 +8,13 @@ import { getData } from './dataStore';
  */
 function clear() {
     const data = getData();
-    data.users = [];
-    data.quizzes = [];
-    data.timers = [];
+    // data.users = [];
+    // data.quizzes = [];
+    data.timers = {
+        remainingTimeHrs: 0,
+        remainingTimeMins: 30,
+        remainingTimeSecs: 0
+    };
     return {};
 }
 export { clear };
