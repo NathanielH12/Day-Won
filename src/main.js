@@ -122,6 +122,23 @@ async function customiseOrSaveTimer() {
     }
 }
 
+async function loadSavedTimer() {
+    try {
+        const response = await fetch("http://localhost:5500/timer/load");
+        const data = await response.json();
+
+
+        const totalTime = (data.remainingTimeHrs * 3600 + data.remainingTimeMins * 60 + data.remainingTimeSecs) * 100
+
+
+        setTime(totalTime);
+        startingTime = totalTime;
+        updateDisplay();
+    } catch (err) {
+        console.warn("Failed to load saved timer", err)
+    }
+}
+
 startBtn.addEventListener('click', () => {
     toggleTimerLogic();
     if (timerOn()) {
