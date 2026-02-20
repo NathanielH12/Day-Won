@@ -23,6 +23,9 @@ function setData(newData: Data) {
 }
 
 function saveDataToFile(data: Data) {
+    const filePath = path.resolve('data.json');
+    console.log("Saving data to:", filePath); // For Debug purposes
+
     fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
 }
 
