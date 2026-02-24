@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { getData, setData, saveDataToFile, loadDataFile } from "../dataStore.js";
+import { loadDataFile } from "../dataStore.js";
+import { saveTimerToStorage, loadTimerFromStorage } from '../timer.js';
 
 loadDataFile();
 const app = express();
@@ -18,24 +19,13 @@ app.get('/hello', (req, res) => {
 });
 
 app.post('/timer/save', (req, res) => {
-    const { remainingTimeHrs, remainingTimeMins, remainingTimeSecs } = req.body;
-    const data = getData();
-
-    data.timers = {
-        remainingTimeHrs,
-        remainingTimeMins,
-        remainingTimeSecs
-    };
-
-    setData(data);
-    saveDataToFile(data);
-
+    saveTimerToStorage();
     res.json({ message: 'Timer Saved '}); // For Debug purposes
 })
 
 app.get('/timer/load', (req, res) => {
-    const data = getData();
-    res.json(data.timers);
+    loadTimerFromStorage();
+    res.json({ message: 'Timer Loaded '});
 })
 
 app.listen(port, () => {

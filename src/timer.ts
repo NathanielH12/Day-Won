@@ -1,3 +1,5 @@
+import { getData, setData, saveDataToFile } from "./dataStore.js"
+
 const ONE_SEC = 100;
 const ONE_MIN = 60 * ONE_SEC;
 
@@ -44,4 +46,30 @@ export function getTime() {
 
 export function setTime(newTime : number) {
     time = newTime;
+}
+
+export function saveTimerToStorage() {
+    const totalSeconds = Math.floor(time / 100);
+
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    const data = getData();
+
+    data.timers = {
+        remainingTimeHrs: hrs,
+        remainingTimeMins: mins,
+        remainingTimeSecs: secs
+    }
+
+    setData(data);
+    saveDataToFile(data);
+}
+
+export function loadTimerFromStorage() {
+    const data = getData();
+
+    const totalSeconds = data.timers.remainingTimeHrs * 3600 + data.timers.remainingTimeMins * 60 + data.timers.remainingTimeSecs;
+    time = totalSeconds * 100;
 }
