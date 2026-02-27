@@ -20,19 +20,20 @@ interface Users {
 // }
 
 interface Timers {
-    userId: number,
-    timerId: number,
-    timerName: string,
-    timerHrs: number,
-    timerMins: number,
+    // userId: number,
+    // timerId: number,
+    // timerName: string,
+    // timerHrs: number,
+    // timerMins: number,
     remainingTimeHrs: number,
     remainingTimeMins: number,
     remainingTimeSecs: number
 }
 
 interface Data {
-    users: Users[],
-    timers: Timers[]
+    // users: Users[],
+    // timers: Timers[]
+    timers: Timers
 }
 
 export {

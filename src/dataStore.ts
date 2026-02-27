@@ -1,9 +1,15 @@
-import { Data } from './interface';
+import { Data } from './interface.js';
 import fs from 'fs';
+import path from 'path';
 
 let data: Data = {
-    users: [],
-    timers: []
+    // users: [],
+    // timers: []
+    timers: {
+        remainingTimeHrs: 0,
+        remainingTimeMins: 30,
+        remainingTimeSecs: 0
+    }
 };
 
 // Use getData() to access the data
@@ -17,6 +23,9 @@ function setData(newData: Data) {
 }
 
 function saveDataToFile(data: Data) {
+    const filePath = path.resolve('data.json');
+    console.log("Saving data to:", filePath); // For Debug purposes
+
     fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
 }
 
@@ -29,7 +38,7 @@ function loadDataFile() {
     const loadedData = fs.readFileSync('data.json', 'utf-8');
     const newData = JSON.parse(loadedData);
     data = {
-        users: newData.users,
+        // users: newData.users,
         timers: newData.timers
     };
     return data;

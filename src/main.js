@@ -6,6 +6,8 @@ import {
     setTime
 } from '../dist/timer.js';
 
+let startingTime = 0;
+
 const ONE_SEC = 100;
 const ONE_MIN = 60 * ONE_SEC;
 const ONE_HOUR = 60 * ONE_MIN;
@@ -19,6 +21,7 @@ const hourDownBtn = document.getElementById('hourDownBtn');
 const minUpBtn = document.getElementById('minUpBtn');
 const minDownBtn = document.getElementById('minDownBtn');
 
+let isCustomising = false;
 hideCustomiseBtns();
 
 function hideCustomiseBtns() {
@@ -79,13 +82,61 @@ function decrementMin() {
     }
 }
 
-function customiseTimer() {
-    resetTimer();
+async function customiseOrSaveTimer() {
+    if (!isCustomising) {
+        resetTimer(startingTime);
 
-    hourUpBtn.style.display = 'block';
-    hourDownBtn.style.display = 'block';
-    minUpBtn.style.display = 'block';
-    minDownBtn.style.display = 'block';
+        hourUpBtn.style.display = 'block';
+        hourDownBtn.style.display = 'block';
+        minUpBtn.style.display = 'block';
+        minDownBtn.style.display = 'block';
+        
+        customiseBtn.innerHTML = 'Save';
+        isCustomising = true;
+    } else {
+        // Saving
+        try {
+            const time = getTime();
+            const totalSeconds = Math.floor(time / 100);
+            let hours = Math.floor(totalSeconds / (60 * 60));
+            let minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+            let seconds = totalSeconds % 60;
+
+            await fetch("http://localhost:5500/timer/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    remainingTimeHrs: hours,
+                    remainingTimeMins: minutes,
+                    remainingTimeSecs: seconds
+                })
+            });
+
+            startingTime = getTime();
+
+        } catch (err) {
+            console.warn("Failed to save timer", err);
+        } finally {
+            hideCustomiseBtns();
+            customiseBtn.innerHTML = "Customise";
+            isCustomising = false;
+        }
+    }
+}
+
+async function loadSavedTimer() {
+    try {
+        const response = await fetch("http://localhost:5500/timer/load");
+        const data = await response.json();
+
+        const totalTime = (data.remainingTimeHrs * 3600 + data.remainingTimeMins * 60 + data.remainingTimeSecs) * 100
+
+        setTime(totalTime);
+        startingTime = totalTime;
+        updateDisplay();
+    } catch (err) {
+        console.warn("Failed to load saved timer", err)
+    }
 }
 
 startBtn.addEventListener('click', () => {
@@ -96,12 +147,15 @@ startBtn.addEventListener('click', () => {
 });
 
 resetBtn.addEventListener('click', () => {
-    resetTimer();
+    resetTimer(startingTime);
     hideCustomiseBtns();
+    updateDisplay();
 });
 
-customiseBtn.addEventListener('click', customiseTimer);
+customiseBtn.addEventListener('click', customiseOrSaveTimer);
 hourUpBtn.addEventListener('click', incrementHour);
 hourDownBtn.addEventListener('click', decrementHour);
 minUpBtn.addEventListener('click', incrementMin);
 minDownBtn.addEventListener('click', decrementMin);
+
+loadSavedTimer();
